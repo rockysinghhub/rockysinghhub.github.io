@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rocky Singh Hub | PDF Library</title>
+  <meta name="description" content="Explore documents, guides and resources at Rocky Singh Hub.">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: #172033;
+      background: #f4f7fb;
+    }
+    header {
+      background: #172554;
+      color: white;
+      padding: 38px 20px;
+      text-align: center;
+    }
+    header h1 { margin: 0 0 10px; }
+    header p { margin: 0; color: #dbeafe; }
+    main { max-width: 900px; margin: 28px auto; padding: 0 18px; }
+    input {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+    .document {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 14px;
+    }
+    .document h2 { margin-top: 0; font-size: 19px; }
+    .document p { color: #64748b; }
+    a { color: #1d4ed8; }
+    .empty { text-align: center; padding: 30px; color: #64748b; }
+    footer { text-align: center; padding: 25px; color: #64748b; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Rocky Singh Hub</h1>
+    <p>Your library for documents, guides and useful resources.</p>
+  </header>
+
+  <main>
+    <input id="search" type="search"
+      placeholder="Search your documents..."
+      aria-label="Search documents">
+
+    <section id="library">
+      <div class="empty">
+        Your PDF library is ready. Documents will appear here soon.
+      </div>
+    </section>
+  </main>
+
+  <footer>© Rocky Singh Hub</footer>
+
+  <script>
+    document.getElementById("search").addEventListener("input", function () {
+      const query = this.value.toLowerCase();
+      document.querySelectorAll(".document").forEach(function (item) {
+        item.hidden = !item.textContent.toLowerCase().includes(query);
+      });
+    });
+  </script>
+</body>
+</html>
