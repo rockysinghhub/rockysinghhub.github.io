@@ -4,80 +4,371 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Rocky Singh Hub | PDF Library</title>
-  <meta name="description" content="Explore documents, guides and resources at Rocky Singh Hub.">
+  <meta name="description" content="Explore stories, documents and resources at Rocky Singh Hub.">
+  <meta name="theme-color" content="#090e1b">
+  <title>Rocky Singh Hub | Document Library</title>
   <style>
+    :root {
+      color-scheme: dark;
+      --bg: #090e1b;
+      --panel: #121b31;
+      --line: rgba(177,196,232,.16);
+      --text: #eef4ff;
+      --muted: #a5b3cc;
+      --blue: #a8c8ff;
+      --cyan: #86e1dc;
+    }
     * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      color: #172033;
-      background: #f4f7fb;
+      background:
+        radial-gradient(ellipse at 12% 0%,rgba(69,94,177,.25),transparent 34rem),
+        radial-gradient(ellipse at 90% 18%,rgba(49,151,164,.14),transparent 30rem),
+        var(--bg);
+      color: var(--text);
+      font-family: Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+      line-height: 1.6;
     }
-    header {
-      background: #172554;
-      color: white;
-      padding: 38px 20px;
-      text-align: center;
+    a { color: inherit; }
+    button,input { font: inherit; }
+    button { cursor: pointer; }
+    .shell { width: min(1120px,calc(100% - 36px)); margin: auto; }
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 18px; padding: 20px 0;
     }
-    header h1 { margin: 0 0 10px; }
-    header p { margin: 0; color: #dbeafe; }
-    main { max-width: 900px; margin: 28px auto; padding: 0 18px; }
-    input {
-      width: 100%;
-      padding: 14px;
-      border: 1px solid #cbd5e1;
-      border-radius: 10px;
-      font-size: 16px;
-      margin-bottom: 20px;
+    .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .brand-mark {
+      display: grid; place-items: center; width: 46px; height: 46px;
+      border-radius: 15px; background: linear-gradient(135deg,var(--blue),var(--cyan));
+      color: #07101f; font-weight: 900;
+    }
+    .brand-name { font-weight: 850; letter-spacing: -.03em; }
+    .brand-sub { display: block; color: var(--muted); font-size: .78rem; }
+    .top-link {
+      text-decoration: none; color: var(--muted);
+      border: 1px solid var(--line); border-radius: 999px; padding: 9px 15px;
+    }
+    .hero {
+      position: relative; overflow: hidden; isolation: isolate;
+      padding: clamp(30px,6vw,70px); margin: 22px 0 26px;
+      border: 1px solid var(--line); border-radius: 30px;
+      background: linear-gradient(120deg,#1b2a4c,#0f2030 60%,#181f3d);
+      box-shadow: 0 24px 70px rgba(0,0,0,.28);
+    }
+    .hero:after {
+      content: ""; position: absolute; z-index: -1;
+      width: 330px; height: 330px; right: -80px; top: -120px;
+      border-radius: 50%; background: radial-gradient(circle,rgba(130,229,224,.24),transparent 70%);
+    }
+    .eyebrow,.kicker {
+      color: var(--cyan); font-size: .76rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: .14em;
+    }
+    h1 {
+      max-width: 760px; font-size: clamp(2.5rem,6vw,4.8rem);
+      line-height: 1.05; letter-spacing: -.06em; margin: 17px 0;
+    }
+    .gradient-text {
+      background: linear-gradient(90deg,#fff,#b8d0ff 48%,#8ce2dc);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .hero-copy { max-width: 620px; color: #c4d0e5; margin-bottom: 25px; }
+    .actions,.tools,.doc-actions,.music-controls {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 11px;
+    }
+    .button {
+      display: inline-flex; align-items: center; justify-content: center;
+      border: 1px solid transparent; border-radius: 999px; padding: 10px 16px;
+      text-decoration: none; font-weight: 750; transition: .2s;
+    }
+    .button:hover { transform: translateY(-2px); }
+    .primary { background: linear-gradient(135deg,var(--blue),var(--cyan)); color: #081321; }
+    .quiet { background: rgba(255,255,255,.05); color: var(--text); border-color: var(--line); }
+    .music-panel {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 18px; padding: 16px 18px; margin-bottom: 42px;
+      border: 1px solid var(--line); border-radius: 18px;
+      background: rgba(13,20,37,.8);
+    }
+    .music-title { font-weight: 800; }
+    .music-caption,.section-note { color: var(--muted); font-size: .84rem; }
+    .music-icon { font-size: 1.5rem; margin-right: 10px; color: var(--cyan); }
+    .music-info { display: flex; align-items: center; }
+    input[type="range"] { width: 95px; accent-color: var(--cyan); }
+    .section-head {
+      display: flex; align-items: end; justify-content: space-between;
+      flex-wrap: wrap; gap: 15px; margin-bottom: 18px;
+    }
+    h2 { margin: 4px 0 0; font-size: clamp(1.7rem,3vw,2.2rem); line-height: 1.2; }
+    .tools { margin: 22px 0; }
+    .search-wrap { flex: 1 1 250px; }
+    #search {
+      width: 100%; padding: 13px 15px; color: var(--text);
+      background: rgba(16,25,45,.9); border: 1px solid var(--line);
+      border-radius: 14px; outline: none;
+    }
+    #search:focus { border-color: var(--cyan); }
+    .filter {
+      padding: 9px 15px; color: var(--muted); border: 1px solid var(--line);
+      border-radius: 999px; background: rgba(255,255,255,.035);
+    }
+    .filter.active,.filter:hover {
+      color: var(--text); border-color: rgba(141,184,255,.6);
+      background: rgba(141,184,255,.1);
+    }
+    .library-grid {
+      display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,270px),1fr));
+      gap: 16px;
     }
     .document {
-      background: white;
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 14px;
+      display: flex; flex-direction: column; min-height: 285px; padding: 21px;
+      border: 1px solid var(--line); border-radius: 22px;
+      background: linear-gradient(155deg,#16213a,#0d1526);
+      transition: transform .2s,border-color .2s;
     }
-    .document h2 { margin-top: 0; font-size: 19px; }
-    .document p { color: #64748b; }
-    a { color: #1d4ed8; }
-    .empty { text-align: center; padding: 30px; color: #64748b; }
-    footer { text-align: center; padding: 25px; color: #64748b; }
+    .document:hover { transform: translateY(-5px); border-color: rgba(141,184,255,.5); }
+    .doc-top { display: flex; align-items: center; justify-content: space-between; }
+    .doc-icon {
+      display: grid; place-items: center; width: 54px; height: 62px;
+      border-radius: 13px; background: rgba(255,116,132,.12);
+      border: 1px solid rgba(255,116,132,.25); color: #ff9da9; font-weight: 900;
+    }
+    .tag {
+      font-size: .72rem; color: var(--cyan); padding: 5px 9px;
+      border-radius: 999px; border: 1px solid rgba(130,229,224,.2);
+    }
+    .document h3 { font-size: 1.12rem; line-height: 1.4; margin: 19px 0 8px; }
+    .document p { color: var(--muted); font-size: .9rem; margin: 0 0 20px; }
+    .doc-actions { margin-top: auto; }
+    .doc-actions .button { font-size: .86rem; padding: 9px 13px; }
+    .doc-open { color: #c9dcff; background: rgba(141,184,255,.12); border-color: var(--line); }
+    .doc-download { color: var(--muted); background: transparent; border-color: var(--line); }
+    .empty { grid-column: 1/-1; text-align: center; padding: 35px; color: var(--muted); }
+    .reader {
+      margin-top: 32px; border: 1px solid var(--line); border-radius: 22px;
+      overflow: hidden; background: #111827;
+    }
+    .reader-head {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px; padding: 16px 18px;
+    }
+    .reader-head h3 { margin: 0; }
+    .reader-head p { margin: 3px 0 0; color: var(--muted); font-size: .82rem; }
+    .reader iframe { display: block; width: 100%; height: 75vh; min-height: 480px; border: 0; background: white; }
+    .about { display: grid; grid-template-columns: 1.2fr .8fr; gap: 18px; margin: 48px 0; }
+    .about-card,.stat {
+      padding: 23px; border: 1px solid var(--line); border-radius: 20px;
+      background: rgba(18,27,49,.8);
+    }
+    .about-card p,.stat span { color: var(--muted); }
+    .stat strong { display: block; font-size: 1.7rem; }
+    footer { border-top: 1px solid var(--line); padding: 25px 0 35px; color: var(--muted); font-size: .84rem; }
+    .footer-inner { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+    @media(max-width:700px) {
+      .shell { width: calc(100% - 24px); }
+      .hero { border-radius: 23px; margin-top: 14px; }
+      .about { grid-template-columns: 1fr; }
+      .music-controls { width: 100%; }
+      .reader iframe { min-height: 400px; height: 65vh; }
+    }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Rocky Singh Hub</h1>
-    <p>Your library for documents, guides and useful resources.</p>
-  </header>
+  <div class="shell">
+    <nav class="topbar">
+      <a class="brand" href="#">
+        <span class="brand-mark">RH</span>
+        <span>
+          <span class="brand-name">Rocky Singh Hub</span>
+          <span class="brand-sub">A personal document library</span>
+        </span>
+      </a>
+      <a class="top-link" href="#library">Explore library ↓</a>
+    </nav>
 
-  <main>
-    <input id="search" type="search"
-      placeholder="Search your documents..."
-      aria-label="Search documents">
+    <header class="hero">
+      <span class="eyebrow">✦ Your digital reading space</span>
+      <h1>Discover something <span class="gradient-text">worth opening.</span></h1>
+      <p class="hero-copy">
+        A growing collection of stories, documents, guides and resources,
+        thoughtfully gathered in one place.
+      </p>
+      <div class="actions">
+        <a class="button primary" href="#library">Explore documents ↘</a>
+        <a class="button quiet" href="#about">About this hub</a>
+      </div>
+    </header>
 
-   <section id="library">
-  <article class="document">
-    <h2>Priyanka at Office — Season 1</h2>
-    <p>Read the first document in the library.</p>
-    <a href="Priyanka%20at%20Office-%20season%201.pdf"
-       target="_blank"
-       rel="noopener">
-      Open PDF ↗
-    </a>
-  </article>
-</section>
-  </main>
+    <section class="music-panel" id="musicPanel">
+      <div class="music-info">
+        <div class="music-icon">♫</div>
+        <div>
+          <div class="music-title">Lo-fi reading room</div>
+          <div class="music-caption" id="musicStatus">Optional background music · off by default</div>
+        </div>
+      </div>
+      <div class="music-controls">
+        <button class="button quiet" id="musicToggle" type="button">▶ Play music</button>
+        <label for="musicVolume">Volume</label>
+        <input id="musicVolume" type="range" min="0" max="100" value="22">
+      </div>
+      <audio id="backgroundMusic" src="./background-music.mp3" loop preload="none"></audio>
+    </section>
 
-  <footer>© Rocky Singh Hub</footer>
+    <main>
+      <section id="library">
+        <div class="section-head">
+          <div>
+            <div class="kicker">The collection</div>
+            <h2>Browse the library</h2>
+          </div>
+          <p class="section-note" id="resultCount">1 document available</p>
+        </div>
+
+        <div class="tools">
+          <div class="search-wrap">
+            <input id="search" type="search" placeholder="Search titles and descriptions..." aria-label="Search documents">
+          </div>
+          <button class="filter active" data-filter="all" type="button">All documents</button>
+          <button class="filter" data-filter="story" type="button">Stories & reading</button>
+          <button class="filter" data-filter="guide" type="button">Guides & resources</button>
+        </div>
+
+        <div class="library-grid" id="libraryGrid">
+          <article class="document" data-category="story" data-search="priyanka at office season 1 story reading">
+            <div class="doc-top">
+              <div class="doc-icon">PDF</div>
+              <span class="tag">Story & reading</span>
+            </div>
+            <h3>Priyanka at Office — Season 1</h3>
+            <p>Your first document in the Rocky Singh Hub library.</p>
+            <div class="doc-actions">
+              <a class="button doc-open" href="./Priyanka%20at%20Office-%20season%201.pdf" target="_blank" rel="noopener">Open PDF ↗</a>
+              <a class="button doc-download" href="./Priyanka%20at%20Office-%20season%201.pdf" download>Download</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="reader">
+        <div class="reader-head">
+          <div>
+            <h3>Read on this page</h3>
+            <p>Preview the featured PDF without leaving the library.</p>
+          </div>
+          <a class="button quiet" href="./Priyanka%20at%20Office-%20season%201.pdf" target="_blank" rel="noopener">Open full PDF ↗</a>
+        </div>
+        <iframe src="./Priyanka%20at%20Office-%20season%201.pdf" title="PDF preview: Priyanka at Office — Season 1" loading="lazy"></iframe>
+      </section>
+
+      <section class="about" id="about">
+        <div class="about-card">
+          <div class="kicker">A little about this space</div>
+          <h2>One hub. Many things to discover.</h2>
+          <p>
+            Rocky Singh Hub is a growing collection of documents and resources.
+            Search for a document, open a PDF in a new tab, or read it in the
+            built-in preview when supported.
+          </p>
+        </div>
+        <div class="stat">
+          <strong id="docTotal">01</strong>
+          <span>Documents listed</span>
+          <hr>
+          <strong>24/7</strong>
+          <span>Public access</span>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-inner">
+        <span>© <span id="year"></span> Rocky Singh Hub</span>
+        <span>Made for curious minds · Enjoy reading</span>
+      </div>
+    </footer>
+  </div>
 
   <script>
-    document.getElementById("search").addEventListener("input", function () {
-      const query = this.value.toLowerCase();
-      document.querySelectorAll(".document").forEach(function (item) {
-        item.hidden = !item.textContent.toLowerCase().includes(query);
+    const searchInput = document.getElementById("search");
+    const cards = Array.from(document.querySelectorAll(".document"));
+    const filters = Array.from(document.querySelectorAll(".filter"));
+    const resultCount = document.getElementById("resultCount");
+    let activeFilter = "all";
+
+    function filterDocuments() {
+      const query = searchInput.value.trim().toLowerCase();
+      let visible = 0;
+
+      cards.forEach(card => {
+        const text = (card.dataset.search + " " + card.textContent).toLowerCase();
+        const matchesText = text.includes(query);
+        const matchesCategory = activeFilter === "all" || card.dataset.category === activeFilter;
+        const show = matchesText && matchesCategory;
+        card.hidden = !show;
+        if (show) visible++;
+      });
+
+      resultCount.textContent = `${visible} document${visible === 1 ? "" : "s"} found`;
+
+      let empty = document.getElementById("noResults");
+      if (!visible && !empty) {
+        empty = document.createElement("div");
+        empty.id = "noResults";
+        empty.className = "empty";
+        empty.textContent = "No documents match your search. Try another keyword or category.";
+        document.getElementById("libraryGrid").appendChild(empty);
+      } else if (visible && empty) {
+        empty.remove();
+      }
+    }
+
+    searchInput.addEventListener("input", filterDocuments);
+
+    filters.forEach(button => {
+      button.addEventListener("click", () => {
+        activeFilter = button.dataset.filter;
+        filters.forEach(item => item.classList.toggle("active", item === button));
+        filterDocuments();
       });
     });
+
+    const music = document.getElementById("backgroundMusic");
+    const musicButton = document.getElementById("musicToggle");
+    const musicVolume = document.getElementById("musicVolume");
+    const musicStatus = document.getElementById("musicStatus");
+
+    music.volume = Number(musicVolume.value) / 100;
+
+    musicVolume.addEventListener("input", () => {
+      music.volume = Number(musicVolume.value) / 100;
+    });
+
+    musicButton.addEventListener("click", async () => {
+      if (music.paused) {
+        try {
+          await music.play();
+          musicButton.textContent = "⏸ Pause music";
+          musicStatus.textContent = "Music playing · adjust volume anytime";
+        } catch (error) {
+          musicStatus.textContent = "Upload background-music.mp3 beside index.html to enable music.";
+        }
+      } else {
+        music.pause();
+        musicButton.textContent = "▶ Play music";
+        musicStatus.textContent = "Music paused · ready when you are";
+      }
+    });
+
+    music.addEventListener("error", () => {
+      musicStatus.textContent = "Add background-music.mp3 beside index.html to enable music.";
+    });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+    document.getElementById("docTotal").textContent = String(cards.length).padStart(2, "0");
+    filterDocuments();
   </script>
 </body>
 </html>
