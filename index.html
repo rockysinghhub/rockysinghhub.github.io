@@ -5,8 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#090a0f">
-  <meta name="description" content="Discover original desi stories, series and episodes on NaughtyDesi.">
-  <title>NaughtyDesi | Stories Worth Reading</title>
+  <meta name="description" content="Discover original desi stories, series and episodes on Naughty Desi.">
+  <title>Naughty Desi | Stories Worth Reading</title>
 
   <!-- GoatCounter visitor tracking -->
   <script data-goatcounter="https://rockysinghhub.goatcounter.com/count"
@@ -646,10 +646,7 @@
       gap: 12px;
     }
 
-    .footer-brand {
-      color: white;
-      font-weight: 800;
-    }
+    .footer-brand { color: white; font-weight: 800; }
 
     .notice {
       padding: 0 5%;
@@ -710,10 +707,15 @@
       }
 
       .hero h1 { letter-spacing: -2px; }
+
       .hero-description { font-size: 13px; }
+
       .content-section { padding: 38px 4% 0; }
+
       .music-wrap { padding: 0 4%; }
+
       .search-panel { padding: 0 4%; }
+
       .about-panel { margin: 40px 4% 30px; }
 
       .story-row {
@@ -723,9 +725,13 @@
 
       .cover { min-height: 160px; }
       .cover-letter { font-size: 85px; }
+
       .story-info { padding: 12px; }
+
       .story-description { font-size: 11px; }
+
       .card-actions { gap: 6px; }
+
       .card-btn { font-size: 11px; padding: 7px 5px; }
     }
 
@@ -750,9 +756,9 @@
 
     <!-- NAVIGATION -->
     <header class="navbar">
-      <a class="brand" href="#home" aria-label="NaughtyDesi home">
+      <a class="brand" href="#home" aria-label="Naughty Desi home">
         <span class="brand-symbol">N</span>
-        <span class="brand-name">NAUGHTY<span>DESI</span></span>
+        <span class="brand-name">NAUGHTY <span>DESI</span></span>
       </a>
 
       <nav class="nav-links" aria-label="Main navigation">
@@ -765,7 +771,7 @@
       <div class="nav-right">
         <button class="search-button" id="searchToggle" type="button"
           aria-label="Show search" title="Search library">⌕</button>
-        <div class="profile" title="NaughtyDesi">N</div>
+        <div class="profile" title="Naughty Desi">N</div>
       </div>
     </header>
 
@@ -780,7 +786,7 @@
         <div class="hero-content">
           <div class="eyebrow">
             <span class="eyebrow-mark"></span>
-            NAUGHTYDESI ORIGINAL STORIES
+            NAUGHTY DESI ORIGINAL STORIES
           </div>
 
           <h1 id="heroTitle">
@@ -846,7 +852,7 @@
         </div>
       </section>
 
-      <!-- SEARCH PANEL -->
+      <!-- SEARCH PANEL: HIDDEN UNTIL REQUESTED -->
       <section class="search-panel" id="searchPanel" hidden>
         <div class="search-inner">
           <input class="search-input" id="searchInput" type="search"
@@ -872,6 +878,7 @@
             <a href="./PDF/Priyanka%20at%20Office-%20season%201.pdf"
               target="_blank" rel="noopener"
               aria-label="Open Priyanka at Office Season 1">
+
               <div class="cover">
                 <span class="cover-badge">FEATURED</span>
                 <span class="cover-letter" aria-hidden="true">P</span>
@@ -887,7 +894,7 @@
               </div>
 
               <p class="story-description">
-                The first featured story in the NaughtyDesi collection.
+                The first featured story in the Naughty Desi collection.
                 Open the PDF to start reading.
               </p>
 
@@ -939,7 +946,7 @@
       <section class="about-panel" id="about">
         <h2>A little corner for stories.</h2>
         <p>
-          Welcome to NaughtyDesi — a home for original desi stories, series and episodes.
+          Welcome to Naughty Desi — a home for original desi stories, series and episodes.
           Explore the collection, open a story, and enjoy some lo-fi music while you read.
           Desi Dil. Naughty Stories.
         </p>
@@ -948,9 +955,9 @@
 
     <footer class="footer">
       <div class="footer-inner">
-        <span class="footer-brand">NAUGHTYDESI</span>
+        <span class="footer-brand">NAUGHTY DESI</span>
         <span>Stories worth opening. A library that keeps growing.</span>
-        <span>© <span id="currentYear"></span> NaughtyDesi</span>
+        <span>© <span id="currentYear"></span> Naughty Desi</span>
       </div>
     </footer>
   </div>
@@ -1036,7 +1043,7 @@
     });
 
     // ROTATING HERO IMAGES: image -sequence (0) through image -sequence (18)
-    // Keep all 19 images inside the images/ folder.
+    // Place the 19 images inside the images/ folder. Common extensions are checked automatically.
     const heroBackgroundA = document.getElementById("heroBackgroundA");
     const heroBackgroundB = document.getElementById("heroBackgroundB");
     const heroBackgroundLayers = [heroBackgroundA, heroBackgroundB];
@@ -1057,7 +1064,6 @@
     let heroTimer = null;
     let heroLoadToken = 0;
 
-    // Find the actual extension of each renamed image.
     function findImagePath(baseName) {
       return new Promise(resolve => {
         let extensionIndex = 0;
@@ -1081,7 +1087,6 @@
       });
     }
 
-    // Display an image with a smooth cross-fade.
     function showHeroImage(index) {
       if (!heroImagePaths.length) return;
 
@@ -1092,7 +1097,6 @@
 
       targetLayer.onload = function () {
         if (token !== heroLoadToken) return;
-
         targetLayer.classList.add("active");
         heroBackgroundLayers[activeHeroLayer].classList.remove("active");
         activeHeroLayer = targetLayerIndex;
@@ -1101,7 +1105,6 @@
 
       targetLayer.onerror = function () {
         if (token !== heroLoadToken) return;
-
         heroImagePaths.splice(targetIndex, 1);
 
         if (heroImagePaths.length) {
@@ -1112,7 +1115,6 @@
       targetLayer.src = heroImagePaths[targetIndex];
     }
 
-    // Change the background every 6.5 seconds.
     function startHeroSlideshow() {
       clearInterval(heroTimer);
 
@@ -1134,9 +1136,7 @@
         showHeroImage(0);
         startHeroSlideshow();
       } else {
-        console.warn(
-          "No slideshow images found. Check filenames and the images/ folder."
-        );
+        console.warn("No slideshow images found. Check filenames and the images/ folder.");
       }
     }
 
@@ -1169,7 +1169,6 @@
 
       const coverBottom = document.createElement("span");
       coverBottom.className = "cover-bottom";
-
       cover.append(badge, letter, coverBottom);
       coverLink.appendChild(cover);
 
@@ -1186,7 +1185,7 @@
 
       const description = document.createElement("p");
       description.className = "story-description";
-      description.textContent = "Open this PDF from the NaughtyDesi library.";
+      description.textContent = "Open this PDF from the Naughty Desi library.";
 
       const actions = document.createElement("div");
       actions.className = "card-actions";
@@ -1209,7 +1208,6 @@
       actions.append(read, download);
       info.append(heading, meta, description, actions);
       article.append(coverLink, info);
-
       return article;
     }
 
