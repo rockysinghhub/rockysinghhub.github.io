@@ -5,8 +5,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#090a0f">
-  <meta name="description" content="Discover original desi stories, series and episodes on Naughty Desi.">
-  <title>Naughty Desi | Stories Worth Reading</title>
+  <meta name="description" content="NaughtyDesi — Desi Dil. Naughty Stories. Discover original stories, series and episodes.">
+
+  <title>NaughtyDesi | Stories Worth Reading</title>
 
   <!-- GoatCounter visitor tracking -->
   <script data-goatcounter="https://rockysinghhub.goatcounter.com/count"
@@ -21,12 +22,17 @@
       --muted: #a5a7b2;
       --accent: #e50914;
       --accent-hover: #ff2530;
+      --gold: #e8bd85;
       --line: rgba(255,255,255,.1);
       --radius: 12px;
     }
 
     * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 85px;
+    }
 
     body {
       margin: 0;
@@ -127,7 +133,9 @@
       font-size: 18px;
     }
 
-    .search-button:hover { background: var(--panel-light); }
+    .search-button:hover {
+      background: var(--panel-light);
+    }
 
     .profile {
       width: 35px;
@@ -710,8 +718,12 @@
 
       .hero-description { font-size: 13px; }
 
-      .content-section { padding: 38px 4% 0; }
+      .background-controls {
+        right: 4%;
+        bottom: 18px;
+      }
 
+      .content-section { padding: 38px 4% 15px; }
       .music-wrap { padding: 0 4%; }
 
       .search-panel { padding: 0 4%; }
@@ -775,8 +787,9 @@
       </div>
     </header>
 
-    <!-- FEATURED STORY -->
     <main id="home">
+
+      <!-- PLATFORM HERO -->
       <section class="hero" aria-labelledby="heroTitle">
         <div class="hero-background" id="heroBackground" aria-hidden="true">
           <img id="heroBackgroundA" alt="">
@@ -786,7 +799,7 @@
         <div class="hero-content">
           <div class="eyebrow">
             <span class="eyebrow-mark"></span>
-            NAUGHTY DESI ORIGINAL STORIES
+            ORIGINAL STORIES · SERIES · EPISODES
           </div>
 
           <h1 id="heroTitle">
