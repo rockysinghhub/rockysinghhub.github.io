@@ -1,0 +1,29 @@
+{
+    "backgroundImages":  [
+                             "./images/Rocky%20(1).jpeg",
+                             "./images/Rocky%20(1).png",
+                             "./images/Rocky%20(10).png",
+                             "./images/Rocky%20(2).png",
+                             "./images/Rocky%20(3).png",
+                             "./images/Rocky%20(4).png",
+                             "./images/Rocky%20(5).png",
+                             "./images/Rocky%20(6).png",
+                             "./images/Rocky%20(7).png",
+                             "./images/Rocky%20(8).png",
+                             "./images/Rocky%20(9).png",
+                             "./images/Rocky%20-12.png",
+                             "./images/Rocky-11.png"
+                         ],
+    "pdfs":  [
+                 {
+                     "title":  "Priyanka at Office- season 1",
+                     "fileName":  "Priyanka at Office- season 1.pdf",
+                     "url":  "./PDF/Priyanka%20at%20Office-%20season%201.pdf"
+                 },
+                 {
+                     "title":  "the new normal",
+                     "fileName":  "the new normal.pdf",
+                     "url":  "./PDF/the%20new%20normal.pdf"
+                 }
+             ]
+}

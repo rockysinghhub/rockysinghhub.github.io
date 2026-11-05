@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,9 +7,11 @@
   <meta name="theme-color" content="#090a0f">
   <meta name="description" content="Discover and read stories at Rocky Singh Hub.">
   <title>Rocky Singh Hub | Stories Worth Reading</title>
-<!-- GoatCounter visitor tracking -->
+
+  <!-- GoatCounter visitor tracking -->
   <script data-goatcounter="https://rockysinghhub.goatcounter.com/count"
           async src="//gc.zgo.at/count.js"></script>
+
   <style>
     :root {
       --bg: #090a0f;
@@ -23,7 +26,6 @@
     }
 
     * { box-sizing: border-box; }
-
     html { scroll-behavior: smooth; }
 
     body {
@@ -98,9 +100,7 @@
       color: #d2d2d8;
     }
 
-    .nav-links a {
-      transition: color .2s;
-    }
+    .nav-links a { transition: color .2s; }
 
     .nav-links a:hover,
     .nav-links a.active {
@@ -139,7 +139,7 @@
       font-weight: 800;
     }
 
-    /* FEATURED HERO */
+    /* FEATURED HERO WITH ROTATING PHOTO BACKGROUND */
 
     .hero {
       min-height: 555px;
@@ -150,41 +150,72 @@
       isolation: isolate;
       padding: 65px 7% 95px;
       background:
-        radial-gradient(ellipse at 76% 37%,rgba(133,28,42,.45),transparent 36%),
-        radial-gradient(ellipse at 87% 80%,rgba(71,36,67,.3),transparent 36%),
-        linear-gradient(90deg,#090a0f 2%,rgba(9,10,15,.92) 35%,rgba(9,10,15,.22) 100%),
-        linear-gradient(145deg,#25202a,#10131c 50%,#35151d);
+        radial-gradient(ellipse at 80% 40%,rgba(133,28,42,.25),transparent 40%),
+        linear-gradient(145deg,#090a0f,#17121b 60%,#24131b);
     }
 
-    .hero::before {
-      content: "P";
+    .hero-background {
       position: absolute;
-      z-index: -1;
-      right: 12%;
-      top: 50%;
-      transform: translateY(-54%) rotate(-7deg);
-      font-family: Georgia,serif;
-      font-size: clamp(300px,43vw,600px);
-      line-height: .8;
-      font-weight: 900;
-      color: rgba(255,255,255,.045);
-      text-shadow: 0 0 100px rgba(229,9,20,.16);
+      z-index: 0;
+      inset: 0;
+      overflow: hidden;
       pointer-events: none;
+    }
+
+    .hero-background img {
+      position: absolute;
+      top: 0;
+      left: 34%;
+      width: 66%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 35%;
+      opacity: 0;
+      transform: scale(1.035);
+      transition: opacity 1.3s ease, transform 7s ease;
+    }
+
+    .hero-background img.active {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .hero-background::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg,
+          #090a0f 0%,
+          rgba(9,10,15,.98) 25%,
+          rgba(9,10,15,.78) 42%,
+          rgba(9,10,15,.18) 68%,
+          rgba(9,10,15,.12) 100%),
+        linear-gradient(0deg,
+          var(--bg) 0%,
+          transparent 28%,
+          rgba(9,10,15,.10) 100%);
     }
 
     .hero::after {
       content: "";
       position: absolute;
-      z-index: -1;
+      z-index: 1;
       inset: 0;
-      background: linear-gradient(0deg,var(--bg) 0%,transparent 24%,transparent 75%,rgba(9,10,15,.28));
+      background: linear-gradient(
+        0deg,
+        var(--bg) 0%,
+        transparent 18%,
+        transparent 82%,
+        rgba(9,10,15,.24) 100%
+      );
       pointer-events: none;
     }
 
     .hero-content {
       width: min(590px,100%);
       position: relative;
-      z-index: 1;
+      z-index: 2;
     }
 
     .eyebrow {
@@ -654,43 +685,44 @@
       .nav-right { gap: 9px; }
 
       .hero {
-        min-height: 510px;
+        min-height: 610px;
         padding: 55px 6% 80px;
-        background:
-          radial-gradient(ellipse at 85% 30%,rgba(133,28,42,.35),transparent 40%),
-          linear-gradient(90deg,#090a0f 0%,rgba(9,10,15,.84) 65%,rgba(9,10,15,.5)),
-          linear-gradient(145deg,#25202a,#10131c);
+        background: #090a0f;
       }
 
-      .hero::before {
-        right: -6%;
-        top: 38%;
-        font-size: 390px;
+      .hero-background img {
+        left: 24%;
+        width: 76%;
+        object-position: center 30%;
+      }
+
+      .hero-background::after {
+        background:
+          linear-gradient(90deg,
+            #090a0f 0%,
+            rgba(9,10,15,.88) 32%,
+            rgba(9,10,15,.40) 66%,
+            rgba(9,10,15,.18) 100%),
+          linear-gradient(0deg,var(--bg) 0%,transparent 32%);
       }
 
       .hero h1 { letter-spacing: -2px; }
-
       .hero-description { font-size: 13px; }
-
       .content-section { padding: 38px 4% 0; }
-
       .music-wrap { padding: 0 4%; }
-
       .search-panel { padding: 0 4%; }
-
       .about-panel { margin: 40px 4% 30px; }
 
-      .story-row { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+      .story-row {
+        grid-template-columns: repeat(2,minmax(0,1fr));
+        gap: 12px;
+      }
 
       .cover { min-height: 160px; }
       .cover-letter { font-size: 85px; }
-
       .story-info { padding: 12px; }
-
       .story-description { font-size: 11px; }
-
       .card-actions { gap: 6px; }
-
       .card-btn { font-size: 11px; padding: 7px 5px; }
     }
 
@@ -737,6 +769,12 @@
     <!-- FEATURED STORY -->
     <main id="home">
       <section class="hero" aria-labelledby="heroTitle">
+
+        <div class="hero-background" id="heroBackground" aria-hidden="true">
+          <img id="heroBackgroundA" alt="">
+          <img id="heroBackgroundB" alt="">
+        </div>
+
         <div class="hero-content">
           <div class="eyebrow">
             <span class="eyebrow-mark"></span>
@@ -764,7 +802,7 @@
 
           <div class="hero-actions">
             <a class="btn btn-primary"
-               href="./Priyanka%20at%20Office-%20season%201.pdf"
+               href="./PDF/Priyanka%20at%20Office-%20season%201.pdf"
                target="_blank" rel="noopener">
               <span aria-hidden="true">▶</span> Read Story
             </a>
@@ -806,7 +844,7 @@
         </div>
       </section>
 
-      <!-- SEARCH PANEL: HIDDEN UNTIL REQUESTED -->
+      <!-- SEARCH PANEL -->
       <section class="search-panel" id="searchPanel" hidden>
         <div class="search-inner">
           <input class="search-input" id="searchInput" type="search"
@@ -829,7 +867,7 @@
           <article class="story-card"
             data-search="priyanka at office season 1 pdf story">
 
-            <a href="./Priyanka%20at%20Office-%20season%201.pdf"
+            <a href="./PDF/Priyanka%20at%20Office-%20season%201.pdf"
               target="_blank" rel="noopener"
               aria-label="Open Priyanka at Office Season 1">
 
@@ -854,13 +892,13 @@
 
               <div class="card-actions">
                 <a class="card-btn card-read"
-                  href="./Priyanka%20at%20Office-%20season%201.pdf"
+                  href="./PDF/Priyanka%20at%20Office-%20season%201.pdf"
                   target="_blank" rel="noopener">
                   ▶ Read Now
                 </a>
 
                 <a class="card-btn card-download"
-                  href="./Priyanka%20at%20Office-%20season%201.pdf"
+                  href="./PDF/Priyanka%20at%20Office-%20season%201.pdf"
                   download
                   aria-label="Download Priyanka at Office Season 1"
                   title="Download PDF">↓</a>
@@ -885,12 +923,12 @@
         </div>
 
         <p style="color:#a5a7b2;font-size:13px;max-width:650px;">
-          Your collection will grow as you add more stories and documents.
-          For now, start with Priyanka at Office — Season 1.
+          Your PDF collection is listed from the files in your PDF folder.
+          Add another PDF there and regenerate the site-content file to display it here.
         </p>
 
         <a class="btn btn-secondary"
-          href="./Priyanka%20at%20Office-%20season%201.pdf"
+          href="./PDF/Priyanka%20at%20Office-%20season%201.pdf"
           target="_blank" rel="noopener">
           Open your library's featured PDF ↗
         </a>
@@ -922,7 +960,7 @@
     const searchToggle = document.getElementById("searchToggle");
     const searchPanel = document.getElementById("searchPanel");
     const searchInput = document.getElementById("searchInput");
-    const storyCards = Array.from(document.querySelectorAll(".story-card"));
+    let storyCards = Array.from(document.querySelectorAll(".story-card"));
     const emptyState = document.getElementById("emptyState");
 
     searchToggle.addEventListener("click", () => {
@@ -996,6 +1034,220 @@
       musicStatus.textContent =
         "Music unavailable. Check that the MP3 is uploaded beside index.html.";
     });
+
+    // ROTATING HERO IMAGES + AUTOMATIC PDF LIST
+    // site-content.json is generated from the real filenames in images/ and PDF/.
+
+    const heroBackgroundA = document.getElementById("heroBackgroundA");
+    const heroBackgroundB = document.getElementById("heroBackgroundB");
+    const heroBackgroundLayers = [heroBackgroundA, heroBackgroundB];
+
+    let heroImagePaths = [];
+    let heroImageIndex = -1;
+    let activeHeroLayer = 1;
+    let heroTimer = null;
+    let heroLoadToken = 0;
+
+    function showHeroImage(index) {
+      if (!heroImagePaths.length) return;
+
+      const targetIndex =
+        (index + heroImagePaths.length) % heroImagePaths.length;
+
+      const targetLayerIndex = activeHeroLayer === 0 ? 1 : 0;
+      const targetLayer = heroBackgroundLayers[targetLayerIndex];
+      const token = ++heroLoadToken;
+
+      targetLayer.onload = function () {
+        if (token !== heroLoadToken) return;
+
+        targetLayer.classList.add("active");
+        heroBackgroundLayers[activeHeroLayer].classList.remove("active");
+
+        activeHeroLayer = targetLayerIndex;
+        heroImageIndex = targetIndex;
+      };
+
+      targetLayer.onerror = function () {
+        if (token !== heroLoadToken) return;
+
+        heroImagePaths.splice(targetIndex, 1);
+
+        if (heroImagePaths.length) {
+          showHeroImage(Math.min(targetIndex, heroImagePaths.length - 1));
+        }
+      };
+
+      targetLayer.src = heroImagePaths[targetIndex];
+    }
+
+    function startHeroSlideshow() {
+      clearInterval(heroTimer);
+
+      if (
+        heroImagePaths.length > 1 &&
+        !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      ) {
+        heroTimer = setInterval(function () {
+          showHeroImage(heroImageIndex + 1);
+        }, 6000);
+      }
+    }
+
+    // CREATE A PDF CARD
+    function makePdfCard(pdf, index) {
+      const title = pdf.title ||
+        (pdf.fileName || "PDF document").replace(/\.pdf$/i, "");
+
+      const url = pdf.url;
+
+      const article = document.createElement("article");
+      article.className = "story-card";
+      article.dataset.search =
+        (title + " " + (pdf.fileName || "") + " pdf").toLowerCase();
+
+      const coverLink = document.createElement("a");
+      coverLink.href = url;
+      coverLink.target = "_blank";
+      coverLink.rel = "noopener";
+      coverLink.setAttribute("aria-label", "Open " + title);
+
+      const cover = document.createElement("div");
+      cover.className = "cover";
+
+      const badge = document.createElement("span");
+      badge.className = "cover-badge";
+      badge.textContent = "PDF";
+
+      const letter = document.createElement("span");
+      letter.className = "cover-letter";
+      letter.setAttribute("aria-hidden", "true");
+      letter.textContent = title.trim().charAt(0).toUpperCase() || "R";
+
+      const coverBottom = document.createElement("span");
+      coverBottom.className = "cover-bottom";
+
+      cover.append(badge, letter, coverBottom);
+      coverLink.appendChild(cover);
+
+      const info = document.createElement("div");
+      info.className = "story-info";
+
+      const heading = document.createElement("h3");
+      heading.className = "story-title";
+      heading.textContent = title;
+
+      const meta = document.createElement("div");
+      meta.className = "story-meta";
+      meta.textContent = "PDF document";
+
+      const description = document.createElement("p");
+      description.className = "story-description";
+      description.textContent =
+        "Open this PDF from the Rocky Singh Hub library.";
+
+      const actions = document.createElement("div");
+      actions.className = "card-actions";
+
+      const read = document.createElement("a");
+      read.className = "card-btn card-read";
+      read.href = url;
+      read.target = "_blank";
+      read.rel = "noopener";
+      read.textContent = "▶ Read Now";
+
+      const download = document.createElement("a");
+      download.className = "card-btn card-download";
+      download.href = url;
+      download.setAttribute("download", pdf.fileName || title + ".pdf");
+      download.setAttribute("aria-label", "Download " + title);
+      download.title = "Download PDF";
+      download.textContent = "↓";
+
+      actions.append(read, download);
+      info.append(heading, meta, description, actions);
+      article.append(coverLink, info);
+
+      return article;
+    }
+
+    // LOAD THE IMAGES AND PDF LIST FROM THE MANIFEST FILE
+    async function loadSiteContent() {
+      try {
+        const response = await fetch("./site-content.json", {
+          cache: "no-store"
+        });
+
+        if (!response.ok) {
+          throw new Error(
+            "site-content.json returned HTTP " + response.status
+          );
+        }
+
+        const content = await response.json();
+
+        // BACKGROUND PHOTO SLIDESHOW
+        heroImagePaths = Array.isArray(content.backgroundImages)
+          ? content.backgroundImages.filter(path => typeof path === "string")
+          : [];
+
+        if (heroImagePaths.length) {
+          showHeroImage(0);
+          startHeroSlideshow();
+        }
+
+        // AUTOMATIC PDF COLLECTION
+        const pdfs = Array.isArray(content.pdfs) ? content.pdfs : [];
+
+        const knownFeaturedPdf =
+          "Priyanka at Office- season 1.pdf".toLowerCase();
+
+        // The original featured Priyanka card already exists in the HTML.
+        // Add the other PDFs from the PDF folder automatically.
+        const extraPdfs = pdfs.filter(pdf =>
+          pdf &&
+          typeof pdf.url === "string" &&
+          typeof pdf.fileName === "string" &&
+          pdf.fileName.toLowerCase() !== knownFeaturedPdf
+        );
+
+        const storyGrid = document.getElementById("storyGrid");
+
+        extraPdfs.forEach((pdf, index) => {
+          storyGrid.appendChild(makePdfCard(pdf, index));
+        });
+
+        // Include dynamically added PDFs in search.
+        storyCards = Array.from(
+          document.querySelectorAll(".story-card")
+        );
+
+        filterStories();
+
+        const totalStories = Math.max(
+          pdfs.length,
+          storyCards.length
+        );
+
+        const countElement = document.getElementById("libraryCount");
+
+        countElement.textContent =
+          totalStories +
+          (totalStories === 1 ? " story available" : " stories available");
+
+      } catch (error) {
+        console.warn("Could not load site-content.json:", error);
+
+        // The featured Priyanka PDF still works if the manifest is missing.
+        const countElement = document.getElementById("libraryCount");
+
+        countElement.textContent =
+          storyCards.length +
+          (storyCards.length === 1 ? " story available" : " stories available");
+      }
+    }
+
+    loadSiteContent();
 
     // FOOTER YEAR
     document.getElementById("currentYear").textContent =
