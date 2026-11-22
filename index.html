@@ -885,6 +885,8 @@
         </div>
 
         <div class="story-row" id="storyGrid">
+
+          <!-- PRIYANKA AT OFFICE -->
           <article class="story-card"
             data-search="priyanka at office season 1 pdf story">
 
@@ -926,6 +928,48 @@
               </div>
             </div>
           </article>
+
+          <!-- MONALI EPISODE 1 -->
+          <article class="story-card"
+            data-search="monali episode 1 pdf story">
+
+            <a href="./PDF/Monali%20episode%201.pdf"
+              target="_blank" rel="noopener"
+              aria-label="Open Monali Episode 1">
+
+              <div class="cover">
+                <span class="cover-badge">NEW STORY</span>
+                <span class="cover-letter" aria-hidden="true">M</span>
+                <span class="cover-bottom"></span>
+              </div>
+            </a>
+
+            <div class="story-info">
+              <h3 class="story-title">Monali — Episode 1</h3>
+
+              <div class="story-meta">
+                PDF <span class="meta-dot">•</span> Episode 1
+              </div>
+
+              <p class="story-description">
+                Read the first episode of Monali. Open the PDF to start reading.
+              </p>
+
+              <div class="card-actions">
+                <a class="card-btn card-read"
+                  href="./PDF/Monali%20episode%201.pdf"
+                  target="_blank" rel="noopener">
+                  ▶ Read Now
+                </a>
+
+                <a class="card-btn card-download"
+                  href="./PDF/Monali%20episode%201.pdf"
+                  download="Monali episode 1.pdf"
+                  aria-label="Download Monali Episode 1"
+                  title="Download PDF">↓</a>
+              </div>
+            </div>
+          </article>
         </div>
 
         <div class="empty-state" id="emptyState" hidden>
@@ -940,7 +984,7 @@
             <h2>My Library</h2>
             <p>Everything available to read right now</p>
           </div>
-          <span class="text-link" id="libraryCount">1 story available</span>
+          <span class="text-link" id="libraryCount">2 stories available</span>
         </div>
 
         <p style="color:#a5a7b2;font-size:13px;max-width:650px;">
@@ -1055,21 +1099,18 @@
         "Music unavailable. Check that the MP3 is uploaded beside index.html.";
     });
 
-    // ROTATING HERO IMAGES: image -sequence (0) through image -sequence (18)
-    // Place the 19 images inside the images/ folder. Common extensions are checked automatically.
+    // ROTATING HERO IMAGES: image-sequence  (0) through image-sequence  (18)
+    // Place all 19 images inside the images/ folder.
     const heroBackgroundA = document.getElementById("heroBackgroundA");
     const heroBackgroundB = document.getElementById("heroBackgroundB");
     const heroBackgroundLayers = [heroBackgroundA, heroBackgroundB];
 
     const heroImageBases = Array.from(
-      { length: 25 },
-      (_, index) => `image-sequence (${index})`
+      { length: 19 },
+      (_, index) => `image-sequence  (${index})`
     );
 
-    const imageExtensions = [
-      ".png", ".jpg", ".jpeg", ".webp", ".gif",	
-      ".PNG", ".JPG", ".JPEG", ".WEBP", ".GIF"
-    ];
+    const imageExtensions = [".jpg"];
 
     let heroImagePaths = [];
     let heroImageIndex = -1;
@@ -1234,13 +1275,17 @@
 
         const content = await response.json();
         const pdfs = Array.isArray(content.pdfs) ? content.pdfs : [];
-        const knownFeaturedPdf = "Priyanka at Office- season 1.pdf".toLowerCase();
+
+        const alreadyDisplayedPdfNames = new Set([
+          "Priyanka at Office- season 1.pdf".toLowerCase(),
+          "Monali episode 1.pdf".toLowerCase()
+        ]);
 
         const extraPdfs = pdfs.filter(pdf =>
           pdf &&
           typeof pdf.url === "string" &&
           typeof pdf.fileName === "string" &&
-          pdf.fileName.toLowerCase() !== knownFeaturedPdf
+          !alreadyDisplayedPdfNames.has(pdf.fileName.toLowerCase())
         );
 
         const storyGrid = document.getElementById("storyGrid");
