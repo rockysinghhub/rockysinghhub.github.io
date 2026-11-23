@@ -470,26 +470,25 @@
     }
 
     .cover {
-      min-height: 205px;
+      aspect-ratio: 3 / 4;
+      min-height: 0;
       position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      background:
-        radial-gradient(ellipse at 72% 25%,rgba(255,102,122,.32),transparent 35%),
-        linear-gradient(145deg,#42212d,#181522 65%,#0c0d14);
+      background: #090a0f;
     }
 
-    .cover::before {
-      content: "";
+    .cover-poster {
       position: absolute;
-      width: 180px;
-      height: 180px;
-      border: 1px solid rgba(255,255,255,.13);
-      border-radius: 50%;
-      box-shadow: 0 0 0 25px rgba(255,255,255,.025),
-                  0 0 0 50px rgba(255,255,255,.02);
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+      object-position: center;
+      background: #090a0f;
     }
 
     .cover-letter {
@@ -504,24 +503,16 @@
 
     .cover-badge {
       position: absolute;
+      z-index: 2;
       top: 12px;
       left: 12px;
-      background: var(--accent);
+      background: rgba(229,9,20,.92);
       color: white;
       padding: 4px 8px;
       font-size: 9px;
       font-weight: 900;
       letter-spacing: 1px;
       border-radius: 3px;
-    }
-
-    .cover-bottom {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 60px;
-      background: linear-gradient(transparent,rgba(0,0,0,.5));
     }
 
     .story-info { padding: 15px; }
@@ -668,7 +659,6 @@
     @media (min-width: 1100px) {
       .hero { min-height: 590px; }
       .story-row { grid-template-columns: repeat(3,minmax(0,1fr)); }
-      .cover { min-height: 240px; }
     }
 
     @media (max-width: 760px) {
@@ -735,7 +725,6 @@
         gap: 12px;
       }
 
-      .cover { min-height: 160px; }
       .cover-letter { font-size: 85px; }
 
       .story-info { padding: 12px; }
@@ -749,7 +738,6 @@
 
     @media (max-width: 400px) {
       .story-row { grid-template-columns: 1fr; }
-      .cover { min-height: 220px; }
       .hero h1 { font-size: 46px; }
       .volume-label { display: none; }
     }
@@ -895,9 +883,11 @@
               aria-label="Open Priyanka at Office Season 1">
 
               <div class="cover">
+                <img class="cover-poster"
+                     src="./covers/priyanka-cover.jpg"
+                     alt="Priyanka at Office Season 1 poster"
+                     loading="lazy">
                 <span class="cover-badge">FEATURED</span>
-                <span class="cover-letter" aria-hidden="true">P</span>
-                <span class="cover-bottom"></span>
               </div>
             </a>
 
@@ -938,9 +928,11 @@
               aria-label="Open Monali Episode 1">
 
               <div class="cover">
+                <img class="cover-poster"
+                     src="./covers/monali-cover.jpg"
+                     alt="Monali Episode 1 poster"
+                     loading="lazy">
                 <span class="cover-badge">NEW STORY</span>
-                <span class="cover-letter" aria-hidden="true">M</span>
-                <span class="cover-bottom"></span>
               </div>
             </a>
 
@@ -1099,8 +1091,8 @@
         "Music unavailable. Check that the MP3 is uploaded beside index.html.";
     });
 
-    // ROTATING HERO IMAGES: image-sequence  (0) through image-sequence  (18)
-    // Place all 19 images inside the images/ folder.
+    // ROTATING HERO IMAGES: image-sequence (0) through image-sequence (24)
+    // Place all 25 PNG images inside the images/ folder.
     const heroBackgroundA = document.getElementById("heroBackgroundA");
     const heroBackgroundB = document.getElementById("heroBackgroundB");
     const heroBackgroundLayers = [heroBackgroundA, heroBackgroundB];
@@ -1216,14 +1208,23 @@
       badge.className = "cover-badge";
       badge.textContent = "PDF";
 
-      const letter = document.createElement("span");
-      letter.className = "cover-letter";
-      letter.setAttribute("aria-hidden", "true");
-      letter.textContent = title.trim().charAt(0).toUpperCase() || "N";
+      const coverIdentity = (title + " " + (pdf.fileName || "")).toLowerCase();
+      if (coverIdentity.includes("new normal")) {
+        const poster = document.createElement("img");
+        poster.className = "cover-poster";
+        poster.src = "./covers/new-normal-cover.jpg";
+        poster.alt = title + " poster";
+        poster.loading = "lazy";
+        cover.appendChild(poster);
+      } else {
+        const letter = document.createElement("span");
+        letter.className = "cover-letter";
+        letter.setAttribute("aria-hidden", "true");
+        letter.textContent = title.trim().charAt(0).toUpperCase() || "N";
+        cover.appendChild(letter);
+      }
 
-      const coverBottom = document.createElement("span");
-      coverBottom.className = "cover-bottom";
-      cover.append(badge, letter, coverBottom);
+      cover.appendChild(badge);
       coverLink.appendChild(cover);
 
       const info = document.createElement("div");
