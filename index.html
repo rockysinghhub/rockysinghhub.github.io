@@ -486,7 +486,7 @@
       width: 100%;
       height: 100%;
       display: block;
-      object-fit: contain;
+      object-fit: cover;
       object-position: center;
       background: #090a0f;
     }
@@ -886,7 +886,8 @@
                 <img class="cover-poster"
                      src="./covers/priyanka-cover.png"
                      alt="Priyanka at Office Season 1 poster"
-                     loading="lazy">
+                     loading="lazy"
+                     decoding="async">
                 <span class="cover-badge">FEATURED</span>
               </div>
             </a>
@@ -931,7 +932,8 @@
                 <img class="cover-poster"
                      src="./covers/monali-cover.png"
                      alt="Monali Episode 1 poster"
-                     loading="lazy">
+                     loading="lazy"
+                     decoding="async">
                 <span class="cover-badge">NEW STORY</span>
               </div>
             </a>
@@ -1092,99 +1094,82 @@
     });
 
     // ROTATING HERO IMAGES: image-sequence (0) through image-sequence (24)
-    // Place all 25 PNG images inside the images/ folder.
+    // Only the first image loads immediately. The next image is loaded one at a time.
     const heroBackgroundA = document.getElementById("heroBackgroundA");
     const heroBackgroundB = document.getElementById("heroBackgroundB");
     const heroBackgroundLayers = [heroBackgroundA, heroBackgroundB];
 
-    const heroImageBases = Array.from(
+    const heroImagePaths = Array.from(
       { length: 25 },
-      (_, index) => `image-sequence (${index})`
+      (_, index) => "./images/" + encodeURIComponent(`image-sequence (${index}).png`)
     );
 
-    const imageExtensions = [".png"];
-
-    let heroImagePaths = [];
     let heroImageIndex = -1;
-    let activeHeroLayer = 1;
+    let activeHeroLayer = 0;
     let heroTimer = null;
-    let heroLoadToken = 0;
+    const heroChangeDelay = 6500;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    function findImagePath(baseName) {
-      return new Promise(resolve => {
-        let extensionIndex = 0;
+    // Load the first available image without checking all 25 files in advance.
+    function loadInitialHeroImage(index = 0, attempts = 0) {
+      if (attempts >= heroImagePaths.length) {
+        console.warn("No slideshow images could be loaded. Check the images/ folder and PNG filenames.");
+        return;
+      }
 
-        function tryNextExtension() {
-          if (extensionIndex >= imageExtensions.length) {
-            resolve(null);
-            return;
-          }
+      const firstLayer = heroBackgroundLayers[0];
+      const candidateIndex = index % heroImagePaths.length;
 
-          const fileName = baseName + imageExtensions[extensionIndex++];
-          const candidatePath = "./images/" + encodeURIComponent(fileName);
-          const tester = new Image();
+      firstLayer.onload = function () {
+        firstLayer.classList.add("active");
+        heroImageIndex = candidateIndex;
+        activeHeroLayer = 0;
 
-          tester.onload = () => resolve(candidatePath);
-          tester.onerror = tryNextExtension;
-          tester.src = candidatePath;
+        if (!reducedMotion && heroImagePaths.length > 1) {
+          loadNextHeroImage((heroImageIndex + 1) % heroImagePaths.length);
         }
+      };
 
-        tryNextExtension();
-      });
+      firstLayer.onerror = function () {
+        loadInitialHeroImage(candidateIndex + 1, attempts + 1);
+      };
+
+      firstLayer.src = heroImagePaths[candidateIndex];
     }
 
-    function showHeroImage(index) {
-      if (!heroImagePaths.length) return;
+    // Load exactly one upcoming image into the hidden layer. Swap only after it loads.
+    function loadNextHeroImage(index, attempts = 0) {
+      if (reducedMotion || attempts >= heroImagePaths.length - 1) return;
 
-      const targetIndex = (index + heroImagePaths.length) % heroImagePaths.length;
+      const targetIndex = index % heroImagePaths.length;
       const targetLayerIndex = activeHeroLayer === 0 ? 1 : 0;
       const targetLayer = heroBackgroundLayers[targetLayerIndex];
-      const token = ++heroLoadToken;
 
       targetLayer.onload = function () {
-        if (token !== heroLoadToken) return;
-        targetLayer.classList.add("active");
-        heroBackgroundLayers[activeHeroLayer].classList.remove("active");
-        activeHeroLayer = targetLayerIndex;
-        heroImageIndex = targetIndex;
+        heroTimer = setTimeout(function () {
+          targetLayer.classList.add("active");
+          heroBackgroundLayers[activeHeroLayer].classList.remove("active");
+          activeHeroLayer = targetLayerIndex;
+          heroImageIndex = targetIndex;
+
+          // Begin loading just the next image after this one becomes visible.
+          loadNextHeroImage((heroImageIndex + 1) % heroImagePaths.length);
+        }, heroChangeDelay);
       };
 
       targetLayer.onerror = function () {
-        if (token !== heroLoadToken) return;
-        heroImagePaths.splice(targetIndex, 1);
-
-        if (heroImagePaths.length) {
-          showHeroImage(Math.min(targetIndex, heroImagePaths.length - 1));
-        }
+        // If one numbered file is missing, skip it and try the next filename.
+        loadNextHeroImage((targetIndex + 1) % heroImagePaths.length, attempts + 1);
       };
 
       targetLayer.src = heroImagePaths[targetIndex];
     }
 
-    function startHeroSlideshow() {
-      clearInterval(heroTimer);
-
-      if (
-        heroImagePaths.length > 1 &&
-        !window.matchMedia("(prefers-reduced-motion: reduce)").matches
-      ) {
-        heroTimer = setInterval(function () {
-          showHeroImage(heroImageIndex + 1);
-        }, 6500);
-      }
-    }
-
-    async function loadHeroImages() {
-      const foundPaths = await Promise.all(heroImageBases.map(findImagePath));
-      heroImagePaths = foundPaths.filter(Boolean);
-
-      if (heroImagePaths.length) {
-        showHeroImage(0);
-        startHeroSlideshow();
-      } else {
-        console.warn("No slideshow images found. Check filenames and the images/ folder.");
-      }
-    }
+    // Give the first background image priority; the other 24 are not requested yet.
+    heroBackgroundA.fetchPriority = "high";
+    heroBackgroundA.decoding = "async";
+    heroBackgroundB.decoding = "async";
+    loadInitialHeroImage();
 
     // AUTOMATIC PDF LIST: extra PDFs are still read from site-content.json.
     function makePdfCard(pdf, index) {
@@ -1215,6 +1200,8 @@
         poster.src = "./covers/new-normal-cover.png";
         poster.alt = title + " poster";
         poster.loading = "lazy";
+        poster.decoding = "async";
+        poster.fetchPriority = "low";
         cover.appendChild(poster);
       } else {
         const letter = document.createElement("span");
@@ -1314,7 +1301,6 @@
       }
     }
 
-    loadHeroImages();
     loadExtraPdfs();
 
     // FOOTER YEAR
